@@ -24,7 +24,7 @@ module Ngrok
         if stopped?
           @params[:log] = (@params[:log]) ? File.open(@params[:log], 'w+') : Tempfile.new('ngrok')
           @pid = spawn("exec ngrok http " + ngrok_exec_params)
-          at_exit { Ngrok::Tunnel.stop }
+          at_exit { Ngrok::Tunnel.stop } unless @params[:daemon]
           @status = :running
           fetch_urls
         end
